@@ -115,5 +115,10 @@ int main() {
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+
+    // Main loop
+    while (!glfwWindowShouldClose(window)) {
+        processInput(window);
+    }
     return 0;
 }
