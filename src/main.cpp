@@ -38,5 +38,47 @@ int main() {
         return -1;
     }
     glViewport(0, 0, 800, 600);
+
+        const char* vertexShaderSource = R"(
+        #version 330 core
+        layout (location = 0) in vec3 aPos;
+        
+        void main()
+        {
+            gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+        }
+    )";
+
+    const char* fragmentShaderSource = R"(
+        #version 330 core
+        out vec4 FragColor;
+        
+        void main()
+        {
+            FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+        }
+    )";
+
+    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+    glCompileShader(vertexShader);
+
+    int success;
+    char infoLog[512];
+    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+    if (!success) {
+        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+        std::cerr << "ERROR Shader\n" << infoLog << std::endl;
+    }
+
+    unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+    glCompileShader(fragmentShader);
+
+    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+    if (!success) {
+        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+        std::cerr << "ERROR Shader\n" << infoLog << std::endl;
+    }
     return 0;
 }
